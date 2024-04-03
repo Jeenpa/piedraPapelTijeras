@@ -1,0 +1,25 @@
+body{
+    background-color: lightblue;
+    display: flex;
+    flex-direction: column;
+}
+
+.title{
+    text-align: center;
+    color: black;
+}
+
+.container{
+    display: flex;
+}
+
+.result{
+    background-color: yellow;
+    width: 80%;
+    min-height: 80vh;
+}
+
+.player{
+    background-color: green;
+    width: 20%;
+}
