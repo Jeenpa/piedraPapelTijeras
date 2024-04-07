@@ -1,35 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Rock+Salt&display=swap');
+
+
 body{
-    background-color: lightblue;
+    background-color: #333;
     display: flex;
     flex-direction: column;
 }
 
 .title{
+    font-family: "Rock Salt", cursive;
+    font-weight: 400;
+    font-style: normal;
     text-align: center;
-    color: black;
+    color: #fff;
+    margin: 5px 0px; 
 }
 
 .container{
     display: flex;
+    justify-content: center;
 }
 
 .result{
     background-color: yellow;
-    width: 80%;
+    width: 70%;
     min-height: 80vh;
+    border-radius: 10px 0 0 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.container .games{
+    display: flex;
+    justify-content: space-around;
+}
+
+.container .games img{
+    width: 80px;
+    height: auto;
+}
+
+.container .cpu, .container .user{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    width: 150px;
+    height: 200px;
+    border: 1px solid #333;
+}
+
+.container .counter{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container .counter h3{
+    margin: 0;
+    font-size: 100px;
+}
+
+.container .count{
+    font-size: 60px;
+}
+
+.container-score{
+    display: flex;
+    justify-content: center;
+}
+
+.container-score .score{
+    background-color: #333;
+    color: #fff;
+    width: 300px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+ 
+.container-score img{
+    width: 50px;
+}
+
+
+.container-score .score-title{
+    display: flex;
+    justify-content: space-around;
+}
+
+.container-score .numeric-score{
+    display: flex;
+    justify-content: space-around;
 }
 
 .player{
     background-color: green;
+    border-radius: 0px 10px 10px 0px;
     width: 20%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     gap: 20px;
 }
 
-.player button{
+.player .buttons button{
     max-width: 150px;
     display: flex;
     flex-direction: column;
@@ -48,8 +127,23 @@ body{
     height: auto;
 }
 
-.scale-up-center {
-	
+.player .play{
+    background-color: blue;
+    min-width: 80px;
+    height: 30px;
+    color: #fff;
+}
+
+.play-reset{
+    display: flex;
+    gap: 10px;
+}
+
+.player .reset{
+    background-color: red;
+    min-width: 80px;
+    height: 30px;
+    color: #fff;
 }
 
 /* ----------------------------------------------

@@ -7,23 +7,57 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1 class="title">Piedra papel o tijeras</h1>
+    <h1 class="title">Piedra, papel o tijeras</h1>
     <div class="container">
         <div class="result">
+            <div class="games">
+                <div class="cpu">
+                    <img src="img/cpu.png" alt="cpu">
+                    <img src="img/desconocido.png" alt="desconocido">
+                </div>
+                <div class="counter">
+                    <h2>Partida actual</h2>
+                    <h3 class="count">0</h3>
+                </div>
+                <div class="user">
+                    <img src="img/usuario.png" alt="users">
+                    <img src="img/desconocido.png" alt="desconocido">
+                </div>
+            </div>
+            <div class="container-score">
+                <div class="score">
+                    <div class="score-title">
+                        <img src="img/cpu.png" alt="cpu">
+                        <h3>Puntaje</h3>
+                        <img src="img/usuario.png" alt="users">
+                    </div>
+                    <div class="numeric-score">
+                        <h3>0</h3>
+                        <img src="img/linea.png" alt="linea">
+                        <h3>0</h3>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="player">
-            <button> 
-                <img src="img/piedra.png" alt="piedra">
-                Piedra
-            </button>
-            <button>
-                <img src="img/papel.png" alt="papel">
-                Papel
-            </button>
-            <button>
-                <img src="img/tijeras.png" alt="tijeras">
-                Tijeras
-            </button>
+            <div class="buttons">
+                <button> 
+                    <img src="img/piedra.png" alt="piedra">
+                    Piedra
+                </button>
+                <button>
+                    <img src="img/papel.png" alt="papel">
+                    Papel
+                </button>
+                <button>
+                    <img src="img/tijeras.png" alt="tijeras">
+                    Tijeras
+                </button>
+            </div>
+            <div class="play-reset">
+                <button class="play">Jugar</button>
+                <button class="reset">Reiniciar</button>
+            </div>
         </div>
     </div>
     <script src="app.js"></script>
