@@ -53,9 +53,14 @@ body{
 }
 
 .container .counter{
+    max-width: 200px;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.container #current{
+    font-size: 20px;
 }
 
 .container .counter h3{
