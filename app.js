@@ -1,66 +1,94 @@
 const d = document;
 let selection = null;
 let timer;
-let timeLeft = 6;
-let computerSelection;
+let timeLeft;
+let count = 0;
+let countPlayer = 0;
+let countComputer = 0;
+let countEquals = 0;
+
+
 
 function paintRoundWinner(user, computer) {
     d.querySelector("#cpu").src = `img/${computer}(1).png`;
     d.querySelector("#user").src = `img/${user}(1).png`;
 }
 
-function resetRoundWinner() {
-    d.querySelector("#cpu").src = "img/desconocido.png";
-    d.querySelector("#user").src = "img/desconocido.png";
-}
+
 
 function startTimer() {
 
     timer = setInterval(() => {
-        resetRoundWinner();
-        computerSelection = getComputerChoice();
         timeLeft--;
         d.querySelector("#count").innerHTML = timeLeft;
-        d.querySelector("#current").innerHTML = "Partida actual";
-        d.querySelector("#current").style.fontSize = "20px";
 
         if (timeLeft === 0) {
+            clearInterval(timer);
             if(!selection){
-                clearInterval(timer);
-                alert("¡Tiempo agotado! Selecciona piedra, papel o tijeras.");
+                alert("¡Tiempo agotado! gana la computadora.");
+                countComputer++;
+                d.querySelector("#computer-score").innerHTML = countComputer;
                 timeLeft = 6;
-            } else{
-                paintRoundWinner(selection, computerSelection);
-                let result = playRound(selection, computerSelection);
-                d.querySelector("#current").innerHTML = result;
-                d.querySelector("#current").style.fontSize = "15px";
-                selection = null;
-                clearInterval(timer);
-                timeLeft = 6;
+                check();
+                if(check()){
+                 startTimer();
+                }
             }
+            
         }
     }, 1000);
 }
 
-function stopTimer() {
-  clearInterval(timer);
-  timeLeft = 6;
-  d.querySelector("#count").innerHTML = 0;
+function reset(){
+    countPlayer = 0;
+    countComputer = 0;
+
+    clearInterval(timer);
+
+    d.querySelector("#current").innerHTML = "Partida actual";
+    d.querySelector("#current").style.fontSize = "20px";
+    d.querySelector("#count"). innerHTML = 0;
+    d.querySelector("#cpu").src = "img/desconocido.png";
+    d.querySelector("#user").src = "img/desconocido.png";
+    d.querySelector("#player-score").innerHTML = countPlayer;
+    d.querySelector("#computer-score").innerHTML = countComputer;
 }
 
-// Inicia el juego
+function play() {
+    let computerSelection = getComputerChoice();
+      
+    let result = playRound(selection, computerSelection);
+    d.querySelector("#current").innerHTML = result;
+    d.querySelector("#current").style.fontSize = "15px";
+    paintRoundWinner(selection, computerSelection);
+
+    return result;
+}
+
+
+
+// Captura de eventos para escuchar opciones del jugador
 d.addEventListener("click", e => {
 
     if(e.target.matches(".play")){
+        timeLeft = 6;
         startTimer();
     }
 
     if(e.target.matches(".reset")){
-        stopTimer();
+        reset();
     }
 
     if(e.target.matches(".buttons") || e.target.matches(".buttons *")){
         selection = e.target.parentElement.id;
+        count++;
+
+        if (countPlayer == 5 || countComputer == 5) {
+            alert("Límite alcanzado debe reiniciar la partida");
+        } else{
+            playGamer();
+            check();
+        }
     }
 
 });
@@ -94,35 +122,31 @@ function playRound(playerSelection, computerSelection) {
 }
   
 
-function playGame() {
-    let countPlayer = 0;
-    let countComputer = 0;
-    let countEquals = 0;
-    
+function playGamer() {
+        let result = play();
 
-    
-    for (let i = 1; i <= 5; i++) {
-
-        startTimer();
-/*
-         console.log(call);
-
-        if (call.includes("jugador")) {
+        if (result.includes("jugador")) {
             countPlayer++;
-        } else if (call.includes("computadora")) {
+            d.querySelector("#player-score").innerHTML = countPlayer;
+        } else if (result.includes("computadora")) {
             countComputer++;
+            d.querySelector("#computer-score").innerHTML = countComputer;
         } else {
             countEquals++;
-        } */
+        }    
+}
+
+function check(){
+    if (countPlayer == 5){
+        alert("¡Has ganado, eres incluso superior a una máquina! Reintenta y sigue demostrándolo.");
+        clearInterval(timer);
+        return false
+    }         
+    if (countComputer == 5){
+        alert("Te ha ganado la computadora, al parecer es mejor que tú reinténtalo y demuestra lo contrario.");
+        clearInterval(timer);    
+        return false;
     } 
-    return countPlayer > countComputer ? `El jugador gana el juego!
-    Resultados:
-            Jugador: ${countPlayer} 
-            Computadora: ${countComputer}
-            Empates: ${countComputer}` : 
-            `La computadora gana el juego!
-    Resultados:
-            Jugador: ${countPlayer} 
-            Computadora: ${countComputer}
-            Empates: ${countComputer}`;
+
+    return true;
 }
