@@ -102,6 +102,12 @@ body{
     justify-content: space-around;
 }
 
+.author{
+    text-align: center;
+    margin: 0;
+    font-style: italic;
+}
+
 .player{
     background-color: green;
     border-radius: 0px 10px 10px 0px;

@@ -8,70 +8,12 @@ let countComputer = 0;
 let countEquals = 0;
 
 
-
-function paintRoundWinner(user, computer) {
-    d.querySelector("#cpu").src = `img/${computer}(1).png`;
-    d.querySelector("#user").src = `img/${user}(1).png`;
-}
-
-
-
-function startTimer() {
-
-    timer = setInterval(() => {
-        timeLeft--;
-        d.querySelector("#count").innerHTML = timeLeft;
-
-        if (timeLeft === 0) {
-            clearInterval(timer);
-            if(!selection){
-                alert("¡Tiempo agotado! gana la computadora.");
-                countComputer++;
-                d.querySelector("#computer-score").innerHTML = countComputer;
-                timeLeft = 6;
-                check();
-                if(check()){
-                 startTimer();
-                }
-            }
-            
-        }
-    }, 1000);
-}
-
-function reset(){
-    countPlayer = 0;
-    countComputer = 0;
-
-    clearInterval(timer);
-
-    d.querySelector("#current").innerHTML = "Partida actual";
-    d.querySelector("#current").style.fontSize = "20px";
-    d.querySelector("#count"). innerHTML = 0;
-    d.querySelector("#cpu").src = "img/desconocido.png";
-    d.querySelector("#user").src = "img/desconocido.png";
-    d.querySelector("#player-score").innerHTML = countPlayer;
-    d.querySelector("#computer-score").innerHTML = countComputer;
-}
-
-function play() {
-    let computerSelection = getComputerChoice();
-      
-    let result = playRound(selection, computerSelection);
-    d.querySelector("#current").innerHTML = result;
-    d.querySelector("#current").style.fontSize = "15px";
-    paintRoundWinner(selection, computerSelection);
-
-    return result;
-}
-
-
-
-// Captura de eventos para escuchar opciones del jugador
 d.addEventListener("click", e => {
+// Delegación de captura de eventos para escuchar opciones del jugador
 
     if(e.target.matches(".play")){
         timeLeft = 6;
+        e.target.hidden = true;
         startTimer();
     }
 
@@ -81,14 +23,9 @@ d.addEventListener("click", e => {
 
     if(e.target.matches(".buttons") || e.target.matches(".buttons *")){
         selection = e.target.parentElement.id;
-        count++;
-
-        if (countPlayer == 5 || countComputer == 5) {
-            alert("Límite alcanzado debe reiniciar la partida");
-        } else{
-            playGamer();
-            check();
-        }
+        playGamer();
+        check();
+        timeLeft = 1;
     }
 
 });
@@ -99,8 +36,8 @@ function getComputerChoice() {
     return choise[Math.floor(Math.random() * choise.length)];
 }
 
-
 function playRound(playerSelection, computerSelection) {
+    //Determina resultados de cada ronda
     let player = playerSelection.toLowerCase();
 
     //Valida si lo que ingreso el usuario es opción correcta
@@ -120,6 +57,68 @@ function playRound(playerSelection, computerSelection) {
         console.error("Ha ingresado una opcion invalida");
     }
 }
+
+
+function paintRoundWinner(user, computer) {
+    // Pinta en la interfaz la opcion seleccionada de cada jugador
+    d.querySelector("#cpu").src = `img/${computer}(1).png`;
+    d.querySelector("#user").src = `img/${user}(1).png`;
+}
+
+function startTimer() {
+
+    timer = setInterval(() => {
+        timeLeft--;
+        d.querySelector("#count").innerHTML = timeLeft;
+
+        if (timeLeft === 0) {
+            clearInterval(timer);
+            if(!selection){
+                alert("¡Tiempo agotado! gana la computadora.");
+                countComputer++;
+                d.querySelector("#computer-score").innerHTML = countComputer;
+                timeLeft = 6;
+            }
+
+            if(check()){
+                startTimer();
+                selection = null;
+                timeLeft = 6;
+            } else{
+                reset();
+            }
+            
+        }
+    }, 1000);
+}
+
+function reset(){
+    countPlayer = 0;
+    countComputer = 0;
+
+    clearInterval(timer);
+
+    d.querySelector("#current").innerHTML = "Partida actual";
+    d.querySelector("#current").style.fontSize = "20px";
+    d.querySelector("#count"). innerHTML = 0;
+    d.querySelector("#cpu").src = "img/desconocido.png";
+    d.querySelector("#user").src = "img/desconocido.png";
+    d.querySelector("#player-score").innerHTML = countPlayer;
+    d.querySelector("#computer-score").innerHTML = countComputer;
+    d.querySelector(".play").hidden = false;
+}
+
+
+function play() {
+    let computerSelection = getComputerChoice();
+      
+    let result = playRound(selection, computerSelection);
+    d.querySelector("#current").innerHTML = result;
+    d.querySelector("#current").style.fontSize = "15px";
+    paintRoundWinner(selection, computerSelection);
+
+    return result;
+}
   
 
 function playGamer() {
@@ -137,14 +136,17 @@ function playGamer() {
 }
 
 function check(){
+    // Chequea si el jugador o la pc han alcanzado las 5 rondas ganadas y determina el ganador del juego
     if (countPlayer == 5){
+        reset();
         alert("¡Has ganado, eres incluso superior a una máquina! Reintenta y sigue demostrándolo.");
-        clearInterval(timer);
-        return false
+        d.querySelector(".play").hidden = false;
+        return false;
     }         
     if (countComputer == 5){
+        reset();
         alert("Te ha ganado la computadora, al parecer es mejor que tú reinténtalo y demuestra lo contrario.");
-        clearInterval(timer);    
+        d.querySelector(".play").hidden = false;
         return false;
     } 
 
