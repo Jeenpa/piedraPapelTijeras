@@ -8,16 +8,35 @@ let countComputer = 0;
 let countEquals = 0;
 
 
+// Activa las opciones del jugador al iniciar partida
+function allowPlay(){
+    d.querySelector("#piedra").disabled = false;
+    d.querySelector("#papel").disabled = false;
+    d.querySelector("#tijeras").disabled = false;
+}
+
+// Desactiva las opciones del jugador para que pueda hacerlo solo al iniciar partida
+function denyplay(){
+    d.querySelector("#piedra").disabled = true;
+    d.querySelector("#papel").disabled = true;
+    d.querySelector("#tijeras").disabled = true;
+}
+
+denyplay();
+
+
 d.addEventListener("click", e => {
 // Delegación de captura de eventos para escuchar opciones del jugador
 
     if(e.target.matches(".play")){
+        allowPlay();
         timeLeft = 6;
         e.target.hidden = true;
         startTimer();
     }
 
     if(e.target.matches(".reset")){
+        denyplay();
         reset();
     }
 
@@ -139,12 +158,14 @@ function check(){
     // Chequea si el jugador o la pc han alcanzado las 5 rondas ganadas y determina el ganador del juego
     if (countPlayer == 5){
         reset();
+        denyplay();
         alert("¡Has ganado, eres incluso superior a una máquina! Reintenta y sigue demostrándolo.");
         d.querySelector(".play").hidden = false;
         return false;
     }         
     if (countComputer == 5){
         reset();
+        denyplay();
         alert("Te ha ganado la computadora, al parecer es mejor que tú reinténtalo y demuestra lo contrario.");
         d.querySelector(".play").hidden = false;
         return false;
